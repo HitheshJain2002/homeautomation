@@ -1,0 +1,1 @@
+savedcmd_/home/team1/home_automation/hall/soil_sensor.ko := aarch64-linux-gnu-ld -r -EL  -maarch64elf -z noexecstack --no-warn-rwx-segments --build-id=sha1  -T arch/arm64/module.lds -o /home/team1/home_automation/hall/soil_sensor.ko /home/team1/home_automation/hall/soil_sensor.o /home/team1/home_automation/hall/soil_sensor.mod.o /home/team1/home_automation/hall/.module-common.o

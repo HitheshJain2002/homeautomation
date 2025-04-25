@@ -1,0 +1,1 @@
+savedcmd_/home/team1/home_automation/hall/Module.symvers :=  scripts/mod/modpost -M -m -a      -o /home/team1/home_automation/hall/Module.symvers -T /home/team1/home_automation/hall/modules.order -i Module.symvers -e 

@@ -1,0 +1,1 @@
+savedcmd_/home/team1/home_automation/hall/soil_sensor.mod := printf '%s\n'   soil_sensor.o | awk '!x[$$0]++ { print("/home/team1/home_automation/hall/"$$0) }' > /home/team1/home_automation/hall/soil_sensor.mod
