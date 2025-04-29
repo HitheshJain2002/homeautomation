@@ -10,11 +10,11 @@ MFRC522 rfid(SS_PIN, RST_PIN);
 MFRC522::MIFARE_Key key;
 
 // === Wi-Fi Credentials ===
-const char* ssid = "Qwerty";
-const char* password = "qwerty@123";
+const char* ssid = "Jinkalpa";
+const char* password = "hithesh@1234";
 
 // === MQTT Broker ===
-const char* mqtt_server = "172.16.10.197";
+const char* mqtt_server = "192.168.1.11";
 WiFiClient espClient;
 PubSubClient client(espClient);
 
@@ -31,7 +31,7 @@ struct User {
 User users[] = {
   {{0x04, 0x65, 0x39, 0x22, 0x4B, 0x67, 0x80}, 7, "Tilak_Shetty",  "zOEVrPeGUXONnd1SXXXz9tbZrKQ2", false},
   {{0xFC, 0x01, 0x96, 0x81},                   4, "Hithesh_Jain",  "cZS8rrcQ3hQgPRlgcrdZWlajQp62", false},
-  {{0x92, 0xE6, 0x40, 0x1D},                   4, "Gaurav_BS",    "kes9iPrUF5OdyJ7BYfJCfVJGrLJ2", false}
+  {{0x92, 0xE6, 0x40, 0x1D},                   4, "Gaurav_BS",     "kes9iPrUF5OdyJ7BYfJCfVJGrLJ2", false}
 };
 const int userCount = sizeof(users) / sizeof(users[0]);
 
@@ -104,24 +104,28 @@ void loop() {
   bool userFound = false;
 
   for (int i = 0; i < userCount; i++) {
-    if (matchUID(rfid.uid.uidByte, rfid.uid.size, users[i].uid, users[i].uidSize)) {
-      userFound = true;
-      users[i].isInside = !users[i].isInside;
-      String action = users[i].isInside ? "Home" : "Vacation";
+  if (matchUID(rfid.uid.uidByte, rfid.uid.size, users[i].uid, users[i].uidSize)) {
+    userFound = true;
+    users[i].isInside = !users[i].isInside;
+    String action = users[i].isInside ? "Home" : "Vacation";
 
-      // Construct JSON message
-      String message = "{ \"name\": \"" + users[i].name + "\", \"action\": \"" + action + "\", \"uid\": \"" + users[i].idString + "\" }";
-      String topic = "rfid/" + users[i].name;
+    String greeting = users[i].isInside ? "Welcome " + users[i].name : "Bye " + users[i].name;
+    Serial.println(greeting);
 
-      Serial.println("Publishing to MQTT:");
-      Serial.println("  Topic: rfid/status");
-      Serial.println("  Message: " + message);
-      
-      client.publish("rfid/status", message.c_str());
-      client.publish(topic.c_str(), action.c_str());
-      break;
-    }
+    // Publish greeting to separate topic
+    client.publish("rfid/greeting", greeting.c_str());
+
+    // Create and publish JSON status
+    String message = "{ \"uid\": \"" + users[i].idString + "\", \"action\": \"" + action + "\", \"name\": \"" + users[i].name + "\" }";
+
+    Serial.println("Publishing to MQTT:");
+    Serial.println("  Topic: rfid/status");
+    Serial.println("  Message: " + message);
+
+    client.publish("rfid/status", message.c_str());
+    break;
   }
+}
 
   if (!userFound) {
     Serial.println("Unknown card scanned.");

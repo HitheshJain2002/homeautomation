@@ -6,7 +6,7 @@
 #include <fcntl.h>
 #include <sys/stat.h>
  
-#define BROKER "172.16.10.197"   // MQTT broker IP address
+#define BROKER "192.168.1.11"   // MQTT broker IP address
 #define PORT 1883               // MQTT port
 #define TOPIC "rfid/status"     // MQTT topic to subscribe to
 #define PIPE_PATH "/tmp/uid_pipe"  // Path to the named pipe
