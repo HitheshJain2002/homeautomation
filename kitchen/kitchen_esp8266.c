@@ -18,8 +18,8 @@ const char* mqtt_client_id = "ESP8266_Kitchen";  // Unique name
 const unsigned long NORMAL_PUBLISH_INTERVAL = 120000;  // 2 mins = 120,000 ms
  
 // Gas sensor mapping values
-const int GAS_MIN_VALUE = 25;  // 0% on percentage scale
-const int GAS_MAX_VALUE = 80;  // 100% on percentage scale
+const int GAS_MIN_VALUE = 100;  // 0% on percentage scale
+const int GAS_MAX_VALUE = 250;  // 100% on percentage scale
 const int GAS_DANGER_THRESHOLD = 60;  // Gas percentage threshold for danger
  
 // Tracking variables
